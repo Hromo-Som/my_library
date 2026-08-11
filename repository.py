@@ -1,4 +1,4 @@
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.books import BookModel
@@ -37,12 +37,16 @@ class BookRepository:
                           book_id: int,
                           book_data: SBookAdd,
                           session: AsyncSession):
-        query = select(BookModel).where(BookModel.id == book_id)
-        res = await session.execute(query)
-        book = res.scalars().first()
         book_dict = book_data.model_dump()
-        for item, value in book_dict.items():
-            setattr(book, item, value)
+        query = (
+            update(BookModel)
+            .where(BookModel.id == book_id)
+            .values(**book_dict)
+            .returning(BookModel)
+        )
+        res = await session.execute(query)
+        await session.commit()
+        book = res.scalars().first()
         return book
 
     @classmethod

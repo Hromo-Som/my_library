@@ -13,7 +13,7 @@ DATABASE_URL = "sqlite+aiosqlite:///library.db"
 
 engine = create_async_engine(DATABASE_URL)
 
-session = async_sessionmaker(engine, expire_on_commit=False)
+async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 
 class Model(MappedAsDataclass, DeclarativeBase):
@@ -21,7 +21,7 @@ class Model(MappedAsDataclass, DeclarativeBase):
 
 
 async def get_db():
-    async with session():
+    async with async_session() as session:
         yield session
 
 
