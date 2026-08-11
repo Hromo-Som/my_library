@@ -27,6 +27,7 @@
 
 ## 📂 Структура проекта
 
+```plaintext
 my_library/
 ├── main.py              # Запуск приложения, подключение роутеров
 ├── database.py          # Настройка движка (Engine) и сессий
@@ -37,6 +38,7 @@ my_library/
 ├── routers/             # Эндпоинты (HTTP логика)
 │   └── books.py
 └── repository.py        # Логика работы с БД (SQL-запросы)
+```
 
 ---
 
